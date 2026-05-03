@@ -619,13 +619,138 @@ footer {
 
 /* ─── RESPONSIVE ─────────────────────────────────── */
 @media (max-width: 768px) {
-  .site-wrap { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .site-header { padding: 1.8rem; }
-  .main-content { padding: 2rem 1.5rem; }
-  .header-deco { display: none; }
-}
-</style>
+  html {
+    font-size: 15px;
+  }
+
+  .site-wrap {
+    display: block;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .site-header {
+    padding: 1.2rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    max-width: 100%;
+  }
+
+  .header-deco {
+    display: none;
+  }
+
+  .main-content {
+    padding: 1.2rem 1rem 3rem;
+    max-width: 100%;
+  }
+
+  .content-section {
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .section-num {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+  }
+
+  .lead {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .rule-card,
+  .quiz-box,
+  .testeur-box,
+  .diacr-card {
+    padding: 1rem;
+  }
+
+  .flow-split,
+  .suf-grid,
+  .quiz-options,
+  .diacr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-node,
+  .flow-result-yes,
+  .flow-result-no,
+  .flow-result-always {
+    font-size: 12px;
+    padding: 0.8rem;
+  }
+
+  .pills {
+    gap: 5px;
+  }
+
+  .pill {
+    font-size: 12px;
+    padding: 4px 9px;
+  }
+
+  .data-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .testeur-input {
+    font-size: 1rem;
+    padding: 10px 12px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .radio-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .result-word {
+    font-size: 1.6rem;
+  }
+
+  .quiz-word {
+    font-size: 2rem;
+  }
+
+  .quiz-opt {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  footer {
+    padding: 1.5rem 1rem 2rem;
+    font-size: 11px;
+  }
+}</style>
 </head>
 <body>
 
