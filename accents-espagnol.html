@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Acento — Les accents en espagnol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F5F0E8;
+  --cream-dark: #EDE6D6;
+  --ink: #1C1A16;
+  --ink-light: #4A4540;
+  --ink-muted: #8A8278;
+  --terra: #C4552A;
+  --terra-light: #E87A4D;
+  --terra-pale: #F7E8E1;
+  --sage: #4A6741;
+  --sage-light: #6B8F62;
+  --sage-pale: #E8F0E6;
+  --gold: #B8860B;
+  --gold-pale: #FBF4DC;
+  --border: rgba(28,26,22,0.12);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --radius: 8px;
+  --shadow: 0 2px 24px rgba(28,26,22,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ─── LAYOUT ─────────────────────────────────────── */
+.site-wrap {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─────────────────────────────────────── */
+.site-header {
+  grid-column: 1 / -1;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 2.5rem 3rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.header-title { display: flex; flex-direction: column; gap: 0.3rem; }
+.header-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terra-light);
+}
+.header-h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.header-h1 em {
+  font-style: italic;
+  color: var(--terra-light);
+}
+.header-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(245,240,232,0.65);
+  max-width: 360px;
+  margin-top: 0.5rem;
+}
+.header-deco {
+  font-family: var(--serif);
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--terra);
+  opacity: 0.35;
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* ─── SIDEBAR NAV ────────────────────────────────── */
+.sidebar {
+  background: var(--ink);
+  padding: 2rem 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.sidebar-section {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+}
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.3);
+  padding: 0.8rem 1.5rem 0.3rem;
+}
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5rem 1.5rem;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(245,240,232,0.65);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+.sidebar a:hover {
+  color: var(--cream);
+  background: rgba(245,240,232,0.05);
+}
+.sidebar a.active {
+  color: var(--terra-light);
+  border-left-color: var(--terra);
+  background: rgba(196,85,42,0.1);
+}
+.sidebar a .nav-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+.sidebar a.active .nav-dot { opacity: 1; }
+
+/* ─── MAIN CONTENT ───────────────────────────────── */
+.main-content {
+  padding: 3rem 3.5rem;
+  max-width: 820px;
+}
+
+/* ─── SECTIONS ───────────────────────────────────── */
+.content-section {
+  margin-bottom: 5rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.content-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--terra);
+  opacity: 0.2;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: -0.2rem;
+}
+.section-title-wrap {}
+.section-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 0.2rem;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.lead {
+  font-size: 15px;
+  color: var(--ink-light);
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+}
+
+h3 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1.8rem 0 0.7rem;
+  color: var(--ink);
+}
+
+/* ─── RULE CARDS ─────────────────────────────────── */
+.rule-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  margin: 0.7rem 0;
+  box-shadow: var(--shadow);
+}
+.rule-card .card-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.rule-card p { font-size: 13px; color: var(--ink-light); }
+
+.rule-card.terra { border-left: 3px solid var(--terra); }
+.rule-card.sage  { border-left: 3px solid var(--sage); }
+.rule-card.gold  { border-left: 3px solid var(--gold); }
+
+/* ─── ARBRE DE DÉCISION ─────────────────────────── */
+.flow-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.2rem 0;
+}
+.flow-node {
+  padding: 0.9rem 1.2rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--ink-light);
+  box-shadow: var(--shadow);
+}
+.flow-node strong { color: var(--ink); font-weight: 500; }
+.flow-arrow {
+  text-align: center;
+  font-size: 18px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  padding: 2px 0;
+}
+.flow-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.flow-result-yes {
+  padding: 0.8rem 1.1rem;
+  background: var(--terra-pale);
+  border: 1px solid rgba(196,85,42,0.25);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--terra);
+}
+.flow-result-no {
+  padding: 0.8rem 1.1rem;
+  background: var(--sage-pale);
+  border: 1px solid rgba(74,103,65,0.25);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sage);
+}
+.flow-result-always {
+  padding: 0.8rem 1.1rem;
+  background: var(--gold-pale);
+  border: 1px solid rgba(184,134,11,0.25);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.flow-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+/* ─── PILLS ──────────────────────────────────────── */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.6rem; }
+.pill {
+  display: inline-block;
+  padding: 3px 11px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: var(--serif);
+  font-style: italic;
+}
+.pill-terra { background: var(--terra-pale); color: var(--terra); }
+.pill-sage  { background: var(--sage-pale);  color: var(--sage);  }
+.pill-gold  { background: var(--gold-pale);  color: var(--gold);  }
+.pill-ink   { background: var(--cream-dark); color: var(--ink-light); }
+
+/* ─── TABLE ──────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 0.8rem 0;
+}
+.data-table th {
+  text-align: left;
+  padding: 8px 12px;
+  background: var(--cream-dark);
+  color: var(--ink-muted);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-light);
+  vertical-align: top;
+}
+.data-table td:first-child { font-family: var(--serif); font-style: italic; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(196,85,42,0.03); }
+
+.t-yes { color: var(--terra); font-weight: 500; }
+.t-no  { color: var(--sage);  font-weight: 500; }
+
+/* ─── DIACRITICS GRID ────────────────────────────── */
+.diacr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 0.8rem 0;
+}
+.diacr-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  box-shadow: var(--shadow);
+}
+.diacr-words {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.4rem;
+}
+.diacr-yes { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--terra); }
+.diacr-no  { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--sage); }
+.diacr-sep { color: var(--ink-muted); font-size: 1.1rem; }
+.diacr-def { font-size: 11.5px; color: var(--ink-muted); line-height: 1.5; }
+.diacr-tip { font-size: 11px; color: var(--terra); margin-top: 0.3rem; font-style: italic; }
+
+/* ─── TESTEUR ────────────────────────────────────── */
+.testeur-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: var(--shadow);
+  margin-top: 1rem;
+}
+.testeur-box label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 0.5rem;
+}
+.testeur-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1.2rem;
+  font-family: var(--serif);
+  font-style: italic;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--cream);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 1rem;
+}
+.testeur-input:focus { border-color: var(--terra); }
+.testeur-input::placeholder { color: var(--ink-muted); font-style: italic; }
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.2rem;
+}
+.radio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: white;
+  color: var(--ink-light);
+  user-select: none;
+}
+.radio-btn input { display: none; }
+.radio-btn.selected {
+  background: var(--terra);
+  border-color: var(--terra);
+  color: white;
+}
+
+.testeur-result {
+  padding: 1.2rem 1.4rem;
+  border-radius: var(--radius);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  min-height: 80px;
+  transition: all 0.3s;
+}
+.result-word {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.result-word.yes { color: var(--terra); }
+.result-word.no  { color: var(--sage); }
+.result-verdict {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+.result-reason { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+.result-reason span.hl { background: var(--gold-pale); color: var(--gold); padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+
+/* ─── QUIZ ───────────────────────────────────────── */
+.quiz-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: var(--shadow);
+  margin-top: 1rem;
+}
+.quiz-progress-bar {
+  height: 3px;
+  background: var(--cream-dark);
+  border-radius: 2px;
+  margin-bottom: 1.4rem;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--terra);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.quiz-score-line {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.quiz-question {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin-bottom: 0.5rem;
+}
+.quiz-word {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+  letter-spacing: -0.02em;
+}
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.quiz-opt {
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--cream);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.quiz-opt:hover:not(:disabled) {
+  border-color: var(--terra);
+  background: var(--terra-pale);
+  color: var(--terra);
+}
+.quiz-opt.correct {
+  border-color: var(--sage);
+  background: var(--sage-pale);
+  color: var(--sage);
+}
+.quiz-opt.wrong {
+  border-color: var(--terra);
+  background: var(--terra-pale);
+  color: var(--terra);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.quiz-feedback {
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  display: none;
+}
+.quiz-feedback.ok  { background: var(--sage-pale);  color: var(--sage);  border: 1px solid rgba(74,103,65,0.2); }
+.quiz-feedback.err { background: var(--terra-pale); color: var(--terra); border: 1px solid rgba(196,85,42,0.2); }
+.quiz-next {
+  width: 100%;
+  padding: 11px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: none;
+}
+.quiz-next:hover { background: var(--ink); color: var(--cream); }
+
+/* ─── SUFFIX TABLE ───────────────────────────────── */
+.suf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0.8rem 0;
+}
+@media (max-width: 600px) {
+  .suf-grid, .flow-split, .diacr-grid, .quiz-options { grid-template-columns: 1fr; }
+}
+
+/* ─── EXAMPLE BOX ────────────────────────────────── */
+.example-callout {
+  border-left: 3px solid var(--terra);
+  background: var(--terra-pale);
+  padding: 1rem 1.2rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 1rem 0;
+}
+.example-callout .ex-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 0.3rem;
+}
+.example-callout p { font-size: 13px; color: var(--ink-light); }
+.example-callout strong { color: var(--ink); font-weight: 500; }
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer {
+  grid-column: 2;
+  padding: 2rem 3.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────── */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(245,240,232,0.15); border-radius: 2px; }
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-wrap { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .site-header { padding: 1.8rem; }
+  .main-content { padding: 2rem 1.5rem; }
+  .header-deco { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="site-wrap">
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-title">
+    <div class="header-eyebrow">Linguistique · Espagnol</div>
+    <h1 class="header-h1"><em>El Acento</em><br>Les accents en espagnol</h1>
+    <p class="header-sub">Du son à l'écrit : maîtriser le tilde à partir de ce qu'on entend</p>
+  </div>
+  <div class="header-deco" aria-hidden="true">á</div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Fondements</div>
+    <a href="#arbre" class="active"><span class="nav-dot"></span>Arbre de décision</a>
+    <a href="#diphtongue"><span class="nav-dot"></span>Diphtongues & hiatus</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Cas particuliers</div>
+    <a href="#prefixes"><span class="nav-dot"></span>Préfixes</a>
+    <a href="#suffixes"><span class="nav-dot"></span>Suffixes</a>
+    <a href="#monosyllabes"><span class="nav-dot"></span>Monosyllabes</a>
+    <a href="#interrogatifs"><span class="nav-dot"></span>Interrogatifs</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Pratique</div>
+    <a href="#testeur"><span class="nav-dot"></span>Testeur interactif</a>
+    <a href="#quiz"><span class="nav-dot"></span>Quiz</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main-content">
+
+  <!-- 1. ARBRE DE DÉCISION -->
+  <section class="content-section" id="arbre">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Le principe de base</div>
+        <h2 class="section-title">J'entends → j'écris : l'arbre de décision</h2>
+      </div>
+    </div>
+
+    <p class="lead">L'espagnol a une accentuation <em>prévisible</em>. Chaque finale de mot a une position tonique attendue. Si ce qu'on entend correspond à l'attendu : <strong>pas de tilde</strong>. Si ça dévie : <strong>tilde obligatoire</strong>.</p>
+
+    <h3>Étape 1 — repérer la syllabe forte à l'oral</h3>
+    <div class="rule-card">
+      <div class="card-title">Compter depuis la fin du mot</div>
+      <p>Prononcer le mot à voix haute. Exagérer chaque syllabe jusqu'à sentir laquelle est naturellement plus longue ou plus haute. Compter sa position depuis la fin : <strong>dernière</strong>, <strong>avant-dernière</strong> (pénultième), ou <strong>deux avant la fin</strong> (antépénultième).</p>
+    </div>
+
+    <h3>Étape 2 — appliquer l'arbre</h3>
+
+    <div style="margin-top:1rem">
+      <div class="flow-label">Cas 1 — syllabe forte sur l'antépénultième ou avant</div>
+      <div class="flow-tree">
+        <div class="flow-node"><strong>Ton fort 2+ syllabes avant la fin</strong> (médico, rápido, dígamelo…)</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-result-always">Tilde toujours — quelle que soit la finale
+          <div class="pills" style="margin-top:6px">
+            <span class="pill pill-gold">médico</span>
+            <span class="pill pill-gold">rápido</span>
+            <span class="pill pill-gold">dígamelo</span>
+            <span class="pill pill-gold">pública</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem">
+      <div class="flow-label">Cas 2 — syllabe forte sur la dernière</div>
+      <div class="flow-tree">
+        <div class="flow-node"><strong>Ton fort sur la dernière syllabe</strong></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-split">
+          <div>
+            <div class="flow-label">Finale = voyelle, -n ou -s</div>
+            <div class="flow-result-yes">Tilde (déviation)
+              <div class="pills" style="margin-top:6px">
+                <span class="pill pill-terra">café</span>
+                <span class="pill pill-terra">comió</span>
+                <span class="pill pill-terra">también</span>
+                <span class="pill pill-terra">además</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="flow-label">Finale = autre consonne</div>
+            <div class="flow-result-no">Pas de tilde (attendu)
+              <div class="pills" style="margin-top:6px">
+                <span class="pill pill-sage">reloj</span>
+                <span class="pill pill-sage">pared</span>
+                <span class="pill pill-sage">capaz</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem">
+      <div class="flow-label">Cas 3 — syllabe forte sur l'avant-dernière</div>
+      <div class="flow-tree">
+        <div class="flow-node"><strong>Ton fort sur l'avant-dernière syllabe</strong></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-split">
+          <div>
+            <div class="flow-label">Finale = voyelle, -n ou -s</div>
+            <div class="flow-result-no">Pas de tilde (attendu)
+              <div class="pills" style="margin-top:6px">
+                <span class="pill pill-sage">casa</span>
+                <span class="pill pill-sage">joven</span>
+                <span class="pill pill-sage">libros</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="flow-label">Finale = autre consonne</div>
+            <div class="flow-result-yes">Tilde (déviation)
+              <div class="pills" style="margin-top:6px">
+                <span class="pill pill-terra">fácil</span>
+                <span class="pill pill-terra">ágil</span>
+                <span class="pill pill-terra">álbum</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-callout" style="margin-top:1.5rem">
+      <div class="ex-label">Exemple fil rouge</div>
+      <p>À l'oral : <strong>su·per·in·te·re·SAN·te</strong>. Syllabe forte = avant-dernière (<em>san</em>). Finale = <em>-e</em> (voyelle). → Position attendue → <strong class="t-no">pas de tilde</strong>. Le <em>súper</em> qu'on sent fort au début est un préfixe collé — il perd son accent propre (voir section Préfixes).</p>
+    </div>
+  </section>
+
+  <!-- 2. DIPHTONGUE / HIATUS -->
+  <section class="content-section" id="diphtongue">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Voyelles</div>
+        <h2 class="section-title">Diphtongues & hiatus</h2>
+      </div>
+    </div>
+
+    <p class="lead">La distinction diphtongue / hiatus est cruciale pour compter les syllabes correctement — et donc pour situer la syllabe tonique.</p>
+
+    <div class="suf-grid">
+      <div class="rule-card terra">
+        <div class="card-title">Voyelles fortes : a · e · o</div>
+        <p>Chacune forme toujours sa propre syllabe. Deux voyelles fortes côte à côte = deux syllabes distinctes.</p>
+        <div class="pills" style="margin-top:8px">
+          <span class="pill pill-ink">ma·es·tro</span>
+          <span class="pill pill-ink">po·e·ma</span>
+        </div>
+      </div>
+      <div class="rule-card sage">
+        <div class="card-title">Voyelles faibles : i · u</div>
+        <p>Accolées à une forte, elles fusionnent en diphtongue (une seule syllabe). Seules, elles forment leur propre syllabe.</p>
+        <div class="pills" style="margin-top:8px">
+          <span class="pill pill-ink">ai·re</span>
+          <span class="pill pill-ink">cau·sa</span>
+          <span class="pill pill-ink">viu·da</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Diphtongue → pas de tilde sur la faible</h3>
+    <div class="rule-card">
+      <p>Les deux voyelles se prononcent dans la même syllabe, la faible s'appuie sur la forte :</p>
+      <div class="pills" style="margin-top:8px">
+        <span class="pill pill-sage">causa</span>
+        <span class="pill pill-sage">reina</span>
+        <span class="pill pill-sage">ciudad</span>
+        <span class="pill pill-sage">fue</span>
+        <span class="pill pill-sage">bueno</span>
+      </div>
+    </div>
+
+    <h3>Hiatus → tilde obligatoire sur la faible tonique</h3>
+    <div class="rule-card terra">
+      <div class="card-title">Quand la faible est accentuée, elle se détache de la forte → deux syllabes</div>
+      <p>Ce tilde est obligatoire même si les règles de position n'en exigent pas un. Il sert à signaler la rupture de la diphtongue.</p>
+      <div class="pills" style="margin-top:8px">
+        <span class="pill pill-terra">pa·ís</span>
+        <span class="pill pill-terra">ba·úl</span>
+        <span class="pill pill-terra">ma·íz</span>
+        <span class="pill pill-terra">re·ír</span>
+        <span class="pill pill-terra">grú·a</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. PRÉFIXES -->
+  <section class="content-section" id="prefixes">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Morphologie</div>
+        <h2 class="section-title">Préfixes collés</h2>
+      </div>
+    </div>
+
+    <p class="lead">Un préfixe <em>collé</em> au mot cesse d'être un mot autonome. Il perd donc son accent éventuel. Le mot composé est traité comme un seul mot soumis aux règles générales.</p>
+
+    <div class="rule-card gold">
+      <div class="card-title">Règle en 3 étapes</div>
+      <p>1. Écrire préfixe + radical en un seul mot.<br>
+      2. Identifier la syllabe tonique <em>dans le mot entier</em> à l'oral.<br>
+      3. Appliquer l'arbre de décision normalement. Le préfixe lui-même n'a aucune influence.</p>
+    </div>
+
+    <h3>Tableau comparatif</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Préfixe seul</th>
+          <th>Accent seul ?</th>
+          <th>Mot composé</th>
+          <th>Accent ?</th>
+          <th>Raison</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>súper</td><td><span class="t-yes">oui</span> (llana, finale -r)</td><td>superinteresante</td><td><span class="t-no">non</span></td><td>avant-dernière + -e → attendu</td></tr>
+        <tr><td>súper</td><td><span class="t-yes">oui</span></td><td>superhéroe</td><td><span class="t-yes">oui (héroe)</span></td><td>accent du radical conservé</td></tr>
+        <tr><td>híper</td><td><span class="t-yes">oui</span></td><td>hiperactivo</td><td><span class="t-no">non</span></td><td>avant-dernière + -o → attendu</td></tr>
+        <tr><td>híper</td><td><span class="t-yes">oui</span></td><td>hiperácido</td><td><span class="t-yes">oui (ácido)</span></td><td>esdrújulo → tilde toujours</td></tr>
+        <tr><td>extra</td><td><span class="t-no">non</span></td><td>extraño</td><td><span class="t-no">non</span></td><td>avant-dernière + -o → attendu</td></tr>
+        <tr><td>semi</td><td><span class="t-no">non</span></td><td>semicírculo</td><td><span class="t-yes">oui</span></td><td>esdrújulo → tilde toujours</td></tr>
+        <tr><td>anti</td><td><span class="t-no">non</span></td><td>antibiótico</td><td><span class="t-yes">oui</span></td><td>hiatus i+o rompu</td></tr>
+        <tr><td>re</td><td><span class="t-no">non</span></td><td>rerápido</td><td><span class="t-yes">oui</span></td><td>esdrújulo conservé</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example-callout">
+      <div class="ex-label">Piège fréquent</div>
+      <p>On croit que <em>súper</em> garde son accent dans le composé. Non. <strong>superrápido</strong> → syllabe forte sur l'antépénultième (<em>rá</em>) → esdrújulo → <span class="t-yes">superrápido</span>. L'accent vient de <em>rápido</em>, pas de <em>super</em>.</p>
+    </div>
+
+    <h3>Trait d'union = deux mots indépendants</h3>
+    <div class="rule-card sage">
+      <p>Avec trait d'union, chaque partie conserve ses propres règles :</p>
+      <div class="pills" style="margin-top:8px">
+        <span class="pill pill-terra">físico-químico</span>
+        <span class="pill pill-sage">norte-africano</span>
+        <span class="pill pill-terra">teórico-práctico</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SUFFIXES -->
+  <section class="content-section" id="suffixes">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Morphologie</div>
+        <h2 class="section-title">Suffixes</h2>
+      </div>
+    </div>
+
+    <h3>-mente (adverbes)</h3>
+    <div class="rule-card terra">
+      <div class="card-title">Exception : l'accent de l'adjectif de base se conserve</div>
+      <p>C'est la seule exception à la règle générale. -mente crée un mot à deux syllabes toniques à l'oral. On ne recalcule pas : si l'adjectif avait un tilde, il reste. Sinon, pas de tilde.</p>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Adjectif</th><th>Adverbe</th><th>Logique</th></tr></thead>
+      <tbody>
+        <tr><td>rápida</td><td><span class="t-yes">rápidamente</span></td><td>esdrújulo conservé</td></tr>
+        <tr><td>fácil</td><td><span class="t-yes">fácilmente</span></td><td>tilde conservé</td></tr>
+        <tr><td>cortés</td><td><span class="t-yes">cortésmente</span></td><td>agudo conservé</td></tr>
+        <tr><td>lenta</td><td><span class="t-no">lentamente</span></td><td>base sans tilde → sans tilde</td></tr>
+        <tr><td>libre</td><td><span class="t-no">libremente</span></td><td>idem</td></tr>
+        <tr><td>solo</td><td><span class="t-no">solamente</span></td><td>base sans tilde</td></tr>
+      </tbody>
+    </table>
+
+    <h3>-ísimo / -ísima (superlatif)</h3>
+    <div class="rule-card terra">
+      <div class="card-title">Tilde toujours sur le í</div>
+      <p>Le suffixe crée systématiquement un hiatus ou un esdrújulo → tilde obligatoire sans exception.</p>
+      <div class="pills" style="margin-top:8px">
+        <span class="pill pill-terra">rapidísimo</span>
+        <span class="pill pill-terra">facilísimo</span>
+        <span class="pill pill-terra">buenísimo</span>
+        <span class="pill pill-terra">grandísimo</span>
+      </div>
+    </div>
+
+    <h3>Diminutifs : -ito, -ita, -illo, -illa</h3>
+    <div class="rule-card">
+      <div class="card-title">Recalculer depuis zéro avec l'arbre</div>
+      <p>Le suffixe ajoute des syllabes → la position tonique change → appliquer les règles générales au mot résultant.</p>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Base</th><th>Diminutif</th><th>Logique</th></tr></thead>
+      <tbody>
+        <tr><td>café (agudo)</td><td><span class="t-no">cafecito</span></td><td>avant-dernière + -o → pas de tilde</td></tr>
+        <tr><td>árbol (llana)</td><td><span class="t-no">arbolito</span></td><td>avant-dernière + -o → pas de tilde</td></tr>
+        <tr><td>canción (agudo)</td><td><span class="t-no">cancioncita</span></td><td>avant-dernière + -a → pas de tilde</td></tr>
+        <tr><td>casa</td><td><span class="t-no">casita</span></td><td>avant-dernière + -a → pas de tilde</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Verbe + enclitiques (pronoms collés)</h3>
+    <div class="rule-card gold">
+      <div class="card-title">Le groupe verbe + pronom(s) = un seul mot → recalculer</div>
+      <p>En pratique, le mot devient souvent esdrújulo → tilde presque toujours.</p>
+      <div class="pills" style="margin-top:8px">
+        <span class="pill pill-gold">dámelo</span>
+        <span class="pill pill-gold">dígame</span>
+        <span class="pill pill-gold">dígamelo</span>
+        <span class="pill pill-sage">dame</span>
+        <span class="pill pill-sage">llévate</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. MONOSYLLABES -->
+  <section class="content-section" id="monosyllabes">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Accent diacritique</div>
+        <h2 class="section-title">Monosyllabes</h2>
+      </div>
+    </div>
+
+    <p class="lead">Les monosyllabes n'ont jamais de tilde selon les règles générales. Mais certaines paires homophones reçoivent un <em>accent diacritique</em> uniquement pour distinguer le sens selon le contexte.</p>
+
+    <div class="diacr-grid">
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">él</span><span class="diacr-sep">/</span><span class="diacr-no">el</span></div>
+        <div class="diacr-def"><span class="diacr-yes">él</span> = pronom (lui) · <span class="diacr-no">el</span> = article (le)</div>
+        <div class="diacr-tip">Remplaçable par « lui » → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">tú</span><span class="diacr-sep">/</span><span class="diacr-no">tu</span></div>
+        <div class="diacr-def"><span class="diacr-yes">tú</span> = pronom (tu) · <span class="diacr-no">tu</span> = possessif (ton)</div>
+        <div class="diacr-tip">Sujet du verbe → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">mí</span><span class="diacr-sep">/</span><span class="diacr-no">mi</span></div>
+        <div class="diacr-def"><span class="diacr-yes">mí</span> = pronom (moi) · <span class="diacr-no">mi</span> = possessif / note</div>
+        <div class="diacr-tip">Après préposition → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">sí</span><span class="diacr-sep">/</span><span class="diacr-no">si</span></div>
+        <div class="diacr-def"><span class="diacr-yes">sí</span> = oui · réflexif · <span class="diacr-no">si</span> = condition / note</div>
+        <div class="diacr-tip">Réponse affirmative ou réflexif → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">sé</span><span class="diacr-sep">/</span><span class="diacr-no">se</span></div>
+        <div class="diacr-def"><span class="diacr-yes">sé</span> = je sais · sois · <span class="diacr-no">se</span> = pronom réfl.</div>
+        <div class="diacr-tip">Verbe saber ou ser → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">té</span><span class="diacr-sep">/</span><span class="diacr-no">te</span></div>
+        <div class="diacr-def"><span class="diacr-yes">té</span> = thé (boisson) · <span class="diacr-no">te</span> = pronom (te)</div>
+        <div class="diacr-tip">La boisson → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">dé</span><span class="diacr-sep">/</span><span class="diacr-no">de</span></div>
+        <div class="diacr-def"><span class="diacr-yes">dé</span> = subj. de dar · <span class="diacr-no">de</span> = préposition</div>
+        <div class="diacr-tip">Que je donne → accent</div>
+      </div>
+      <div class="diacr-card">
+        <div class="diacr-words"><span class="diacr-yes">más</span><span class="diacr-sep">/</span><span class="diacr-no">mas</span></div>
+        <div class="diacr-def"><span class="diacr-yes">más</span> = plus (quantité) · <span class="diacr-no">mas</span> = mais (littér.)</div>
+        <div class="diacr-tip">Comparaison ou quantité → accent</div>
+      </div>
+      <div class="diacr-card" style="grid-column: 1/-1">
+        <div class="diacr-words"><span class="diacr-yes">aún</span><span class="diacr-sep">/</span><span class="diacr-no">aun</span></div>
+        <div class="diacr-def"><span class="diacr-yes">aún</span> = encore, toujours (= todavía) · 2 syllabes : a-ún · <span class="diacr-no">aun</span> = même (= incluso) · 1 syllabe</div>
+        <div class="diacr-tip">Remplaçable par todavía → accent · à l'oral : 2 syllabes détachées</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. INTERROGATIFS -->
+  <section class="content-section" id="interrogatifs">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Accent diacritique</div>
+        <h2 class="section-title">Interrogatifs & exclamatifs</h2>
+      </div>
+    </div>
+
+    <p class="lead">Ces mots portent <em>toujours</em> un tilde, même en discours indirect. Le contexte (question ou exclamation, directe ou rapportée) suffit à imposer l'accent.</p>
+
+    <div class="pills" style="margin-bottom:1.2rem">
+      <span class="pill pill-terra">qué</span>
+      <span class="pill pill-terra">quién</span>
+      <span class="pill pill-terra">cuál</span>
+      <span class="pill pill-terra">cuándo</span>
+      <span class="pill pill-terra">cómo</span>
+      <span class="pill pill-terra">dónde</span>
+      <span class="pill pill-terra">cuánto</span>
+      <span class="pill pill-terra">adónde</span>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Avec accent (interro/excl.)</th><th>Sans accent (relatif/conjonction)</th></tr></thead>
+      <tbody>
+        <tr><td>¿<span class="t-yes">Qué</span> haces?</td><td>Espero <span class="t-no">que</span> vengas.</td></tr>
+        <tr><td>¿<span class="t-yes">Cómo</span> te llamas?</td><td>Lo haré <span class="t-no">como</span> dijiste.</td></tr>
+        <tr><td>No sé <span class="t-yes">cómo</span> se llama.</td><td><span class="t-no">Como</span> quieras.</td></tr>
+        <tr><td>¡<span class="t-yes">Cuánto</span> tiempo!</td><td><span class="t-no">Cuanto</span> más comes, más engordas.</td></tr>
+        <tr><td>¿<span class="t-yes">Dónde</span> vives?</td><td>La ciudad <span class="t-no">donde</span> nació.</td></tr>
+        <tr><td>¿<span class="t-yes">Quién</span> es?</td><td>El hombre <span class="t-no">quien</span> llamó.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 7. TESTEUR -->
+  <section class="content-section" id="testeur">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Pratique</div>
+        <h2 class="section-title">Testeur interactif</h2>
+      </div>
+    </div>
+
+    <p class="lead">Entre un mot sans accent, indique la syllabe tonique que tu entends. L'outil applique l'arbre de décision et te donne la forme correcte.</p>
+
+    <div class="testeur-box">
+      <label for="t-input">Mot en espagnol (sans accent)</label>
+      <input type="text" id="t-input" class="testeur-input" placeholder="medico, cafe, arbol, joven…" autocomplete="off" spellcheck="false">
+
+      <label>Syllabe forte entendue</label>
+      <div class="radio-group" id="ton-group">
+        <label class="radio-btn" id="rb-last">
+          <input type="radio" name="ton" value="last"> dernière
+        </label>
+        <label class="radio-btn selected" id="rb-penult">
+          <input type="radio" name="ton" value="penult" checked> avant-dernière
+        </label>
+        <label class="radio-btn" id="rb-ante">
+          <input type="radio" name="ton" value="ante"> deux avant la fin
+        </label>
+        <label class="radio-btn" id="rb-more">
+          <input type="radio" name="ton" value="more"> encore avant
+        </label>
+      </div>
+
+      <div class="testeur-result" id="t-result">
+        <div style="color:var(--ink-muted);font-size:13px;line-height:1.6">Le résultat apparaîtra ici. Entre un mot et sélectionne la syllabe forte.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. QUIZ -->
+  <section class="content-section" id="quiz">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div class="section-title-wrap">
+        <div class="section-tag">Pratique</div>
+        <h2 class="section-title">Quiz</h2>
+      </div>
+    </div>
+
+    <p class="lead">Choisis la forme correctement accentuée. Une explication s'affiche à chaque réponse.</p>
+
+    <div class="quiz-box">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="q-prog"></div></div>
+      <div class="quiz-score-line">
+        <span id="q-num">Question 1 / 15</span>
+        <span id="q-score">Score : 0</span>
+      </div>
+      <div class="quiz-question">Quelle est la forme correcte ?</div>
+      <div class="quiz-word" id="q-word">—</div>
+      <div class="quiz-options" id="q-opts"></div>
+      <div class="quiz-feedback" id="q-feedback"></div>
+      <button class="quiz-next" id="q-next" onclick="nextQ()">Question suivante →</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>El Acento · Cours d'accentuation espagnole · Basé sur les normes de la Real Academia Española (RAE)</p>
+</footer>
+
+</div>
+
+<script>
+/* ─── SCROLL SPY ─────────────────────────────────── */
+const sections = document.querySelectorAll('.content-section');
+const navLinks = document.querySelectorAll('.sidebar a');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id);
+      });
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -20% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+/* ─── RADIO BUTTONS ──────────────────────────────── */
+const rbs = document.querySelectorAll('.radio-btn');
+rbs.forEach(rb => {
+  rb.addEventListener('click', () => {
+    rbs.forEach(r => r.classList.remove('selected'));
+    rb.classList.add('selected');
+    analyze();
+  });
+});
+
+/* ─── TESTEUR ────────────────────────────────────── */
+const accMap = {a:'á',e:'é',i:'í',o:'ó',u:'ú'};
+const vowels = 'aeiouáéíóú';
+const strong = 'aeoáéó';
+
+function getSyllables(w) {
+  let syls = [], cur = '';
+  for (let i = 0; i < w.length; i++) {
+    const c = w[i], next = w[i+1]||'';
+    cur += c;
+    const isV = vowels.includes(c), nextIsV = vowels.includes(next);
+    if (isV && nextIsV && strong.includes(c) && strong.includes(next)) { syls.push(cur); cur=''; }
+    else if (!isV && nextIsV && cur.length > 1) { syls.push(cur.slice(0,-1)); cur=c; }
+  }
+  if (cur) syls.push(cur);
+  return syls.length ? syls : [w];
+}
+
+function addTilde(syl) {
+  for (let i = syl.length-1; i >= 0; i--) {
+    if (accMap[syl[i]]) return syl.slice(0,i)+accMap[syl[i]]+syl.slice(i+1);
+  }
+  return syl;
+}
+
+function placeAccent(w, ton, needsTilde) {
+  if (!needsTilde) return w;
+  const syls = getSyllables(w); const n = syls.length;
+  const idx = ton==='last'?n-1:ton==='penult'?n-2:ton==='ante'?n-3:Math.max(0,n-4);
+  if (idx<0||idx>=n) return w;
+  syls[idx] = addTilde(syls[idx]);
+  return syls.join('');
+}
+
+function analyze() {
+  const raw = document.getElementById('t-input').value.trim().toLowerCase().replace(/[áéíóú]/g, c=>({á:'a',é:'e',í:'i',ó:'o',ú:'u'}[c]));
+  const res = document.getElementById('t-result');
+  if (!raw) { res.innerHTML='<div style="color:var(--ink-muted);font-size:13px">Entre un mot.</div>'; return; }
+
+  const ton = document.querySelector('input[name=ton]:checked').value;
+  const last = raw[raw.length-1]||'';
+  const endsV = vowels.includes(last), endsNS = last==='n'||last==='s';
+  let needs, reason;
+
+  if (ton==='more'||ton==='ante') {
+    needs = true;
+    reason = `Syllabe forte sur la position <span class="hl">${ton==='ante'?'antépénultième':'encore avant'}</span> → esdrújulo ou sobresdrújulo → <strong>tilde toujours obligatoire</strong>, quelle que soit la finale.`;
+  } else if (ton==='last') {
+    if (endsV||endsNS) {
+      needs = true;
+      reason = `Syllabe forte sur la <span class="hl">dernière</span> + finale <span class="hl">${last}</span> (${endsV?'voyelle':'n ou s'}) → déviation de la norme → <strong>tilde obligatoire</strong>.`;
+    } else {
+      needs = false;
+      reason = `Syllabe forte sur la <span class="hl">dernière</span> + finale <span class="hl">${last}</span> (consonne ≠ n/s) → c'est la norme des mots agudos → <strong>pas de tilde</strong>.`;
+    }
+  } else {
+    if (endsV||endsNS) {
+      needs = false;
+      reason = `Syllabe forte sur l'<span class="hl">avant-dernière</span> + finale <span class="hl">${last}</span> (${endsV?'voyelle':'n ou s'}) → c'est la norme des mots llanos → <strong>pas de tilde</strong>.`;
+    } else {
+      needs = true;
+      reason = `Syllabe forte sur l'<span class="hl">avant-dernière</span> + finale <span class="hl">${last}</span> (consonne ≠ n/s) → déviation de la norme → <strong>tilde obligatoire</strong>.`;
+    }
+  }
+
+  const form = placeAccent(raw, ton, needs);
+  const cls = needs ? 'yes' : 'no';
+  const verdict = needs ? 'Tilde nécessaire' : 'Pas de tilde';
+  const vcolor = needs ? 'var(--terra)' : 'var(--sage)';
+
+  res.innerHTML = `<div class="result-word ${cls}">${form}</div>
+    <div class="result-verdict" style="color:${vcolor}">${verdict}</div>
+    <div class="result-reason">${reason}</div>`;
+}
+
+document.getElementById('t-input').addEventListener('input', analyze);
+
+/* ─── QUIZ ───────────────────────────────────────── */
+const questions = [
+  {word:'cafe', correct:'café', opts:['café','cafe'], rule:'Agudo (ton. dernière) + finale -e (voyelle) → tilde obligatoire.'},
+  {word:'arbol', correct:'árbol', opts:['arbol','árbol'], rule:'Llano (ton. avant-dernière) + finale -l (≠ n/s) → tilde obligatoire.'},
+  {word:'casa', correct:'casa', opts:['casa','cása'], rule:'Llano + finale -a (voyelle) → norme respectée → pas de tilde.'},
+  {word:'medico', correct:'médico', opts:['medico','médico','medicó'], rule:'Ton. antépénultième → esdrújulo → tilde toujours obligatoire.'},
+  {word:'joven', correct:'joven', opts:['jóven','joven'], rule:'Llano + finale -n → norme respectée → pas de tilde.'},
+  {word:'rapido', correct:'rápido', opts:['rapido','rápido','rapidó'], rule:'Esdrújulo → tilde toujours, quelle que soit la finale.'},
+  {word:'examen', correct:'examen', opts:['exámen','examen'], rule:'Llano + finale -n → norme respectée → pas de tilde.'},
+  {word:'cancion', correct:'canción', opts:['cancion','canción'], rule:'Agudo + finale -n → tilde obligatoire.'},
+  {word:'util', correct:'útil', opts:['util','útil'], rule:'Llano + finale -l (≠ n/s) → tilde obligatoire.'},
+  {word:'tambien', correct:'también', opts:['tambien','también'], rule:'Agudo + finale -n → tilde obligatoire.'},
+  {word:'facil', correct:'fácil', opts:['facil','fácil'], rule:'Llano + finale -l (≠ n/s) → tilde obligatoire.'},
+  {word:'reloj', correct:'reloj', opts:['reloj','relój'], rule:'Agudo + finale -j (≠ n/s/voyelle) → norme → pas de tilde.'},
+  {word:'rapidamente', correct:'rápidamente', opts:['rapidamente','rápidamente'], rule:'-mente : l\'adjectif rápida avait un tilde → il se conserve dans l\'adverbe.'},
+  {word:'dimelo', correct:'dímelo', opts:['dimelo','dímelo'], rule:'Verbe+enclitiques → esdrújulo → tilde obligatoire.'},
+  {word:'pais', correct:'país', opts:['pais','país'], rule:'Hiatus : i faible tonique + a forte → rupture de diphtongue → tilde obligatoire sur le í.'},
+];
+
+let qi=0, score=0, answered=false, order=[];
+
+function initQuiz() {
+  order = [...Array(questions.length).keys()].sort(()=>Math.random()-0.5);
+  qi=0; score=0; answered=false;
+  renderQ();
+}
+
+function renderQ() {
+  const q = questions[order[qi%order.length]];
+  document.getElementById('q-num').textContent = `Question ${qi+1} / ${questions.length}`;
+  document.getElementById('q-score').textContent = `Score : ${score}`;
+  document.getElementById('q-prog').style.width = `${(qi/questions.length)*100}%`;
+  document.getElementById('q-word').textContent = q.word;
+  document.getElementById('q-feedback').style.display='none';
+  document.getElementById('q-next').style.display='none';
+  answered=false;
+
+  const opts = document.getElementById('q-opts');
+  opts.innerHTML = q.opts.map(o=>`<button class="quiz-opt" onclick="answer(this,'${o}','${q.correct}','${q.rule.replace(/'/g,"\\'")}')">${o}</button>`).join('');
+}
+
+function answer(btn, chosen, correct, rule) {
+  if (answered) return;
+  answered=true;
+  const ok = chosen===correct;
+  if(ok) score++;
+  btn.classList.add(ok?'correct':'wrong');
+  document.querySelectorAll('.quiz-opt').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===correct) b.classList.add('correct');
+  });
+  const fb=document.getElementById('q-feedback');
+  fb.style.display='block';
+  fb.className='quiz-feedback '+(ok?'ok':'err');
+  fb.innerHTML=(ok?'✓ Correct — ':'✗ La bonne réponse est <strong>'+correct+'</strong> — ')+rule;
+  document.getElementById('q-next').style.display='block';
+  document.getElementById('q-score').textContent=`Score : ${score}`;
+}
+
+function nextQ() {
+  qi++;
+  if(qi>=questions.length) {
+    document.querySelector('.quiz-box').innerHTML=`
+      <div style="text-align:center;padding:2rem">
+        <div style="font-family:var(--serif);font-size:3rem;color:var(--terra);font-style:italic;margin-bottom:0.5rem">${score}<span style="font-size:1.5rem;color:var(--ink-muted)">/${questions.length}</span></div>
+        <div style="font-size:15px;color:var(--ink-light);margin-bottom:1.5rem">${score>=12?'Excellent !':score>=8?'Bien !':score>=5?'Pas mal.':'Continue à t\'entraîner !'}</div>
+        <button onclick="initQuiz()" style="padding:11px 28px;border:1.5px solid var(--ink);border-radius:8px;background:transparent;font-size:14px;cursor:pointer;font-family:var(--sans)">Recommencer</button>
+      </div>`;
+    return;
+  }
+  renderQ();
+}
+
+initQuiz();
+</script>
+</body>
+</html>
