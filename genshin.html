@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genshin Quiz — Récite tous les personnages</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0a0c14;
+  --bg2: #111420;
+  --bg3: #181c2e;
+  --bg4: #1e2438;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --text: #e8e0d0;
+  --text2: #9a93a8;
+  --text3: #5c576b;
+  --accent: #c8a84b;
+  --accent2: #e8c96a;
+  --found: #2e7d4f;
+  --found-text: #6fcf8a;
+  --missed: #1e3a1e;
+  --missed-text: #4caf50;
+  --missed-border: #2e7d3e;
+
+  --anemo: #6ec5b8;
+  --pyro: #e87d3e;
+  --hydro: #5b9bd5;
+  --cryo: #9fd4e8;
+  --electro: #b07fe8;
+  --geo: #d4a835;
+  --dendro: #7ec850;
+  --variable: #c8a84b;
+
+  --mondstadt: #5b9ed4;
+  --liyue: #d4a835;
+  --inazuma: #b07fe8;
+  --sumeru: #7ec850;
+  --fontaine: #5b9bd5;
+  --natlan: #e87d3e;
+  --nod-krai: #9fd4e8;
+  --voyageur: #c8a84b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(200,168,75,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 90%, rgba(91,155,213,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== HEADER ===== */
+header {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg2);
+}
+
+.logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.logo span { color: var(--text2); font-weight: 400; font-size: 0.85rem; display: block; letter-spacing: 0.15em; }
+
+.header-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.2rem;
+  border-radius: 3px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-gold {
+  background: var(--accent);
+  color: #0a0c14;
+  border-color: var(--accent2);
+}
+.btn-gold:hover { background: var(--accent2); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  border-color: var(--border2);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--border2); background: var(--bg3); }
+.btn-danger {
+  background: transparent;
+  color: #e87d3e;
+  border-color: #e87d3e44;
+}
+.btn-danger:hover { background: #e87d3e22; }
+
+/* ===== SCREENS ===== */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ===== HOME SCREEN ===== */
+#home-screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+#home-screen.active { display: block; }
+
+.home-title {
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+.home-subtitle {
+  font-size: 1rem;
+  color: var(--text2);
+  margin-bottom: 3rem;
+  letter-spacing: 0.05em;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.stat-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.2rem;
+}
+.stat-card .val {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-card .lbl {
+  font-size: 0.7rem;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+.home-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ===== GAME SCREEN ===== */
+#game-screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+}
+#game-screen.active { display: flex; flex-direction: column; height: calc(100vh - 73px); }
+
+.game-top {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.timer-display {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.timer-zone {
+  width: 190px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.timer-spacer { flex: 1; }
+
+.progress-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progress-bar-wrap {
+  flex: 1;
+  height: 4px;
+  background: var(--bg4);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-text {
+  font-size: 0.85rem;
+  color: var(--text2);
+  white-space: nowrap;
+}
+
+.input-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.input-wrap input {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.95rem;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  width: 220px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-wrap input:focus { border-color: var(--accent); }
+.input-wrap input.flash-success {
+  border-color: var(--found-text);
+  background: rgba(46,125,79,0.2);
+}
+.input-wrap input.flash-error {
+  border-color: #e87d3e;
+}
+
+.input-hint {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  color: var(--text3);
+  pointer-events: none;
+}
+
+.game-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 2rem;
+}
+
+/* ===== GRID ===== */
+.nations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.nation-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.nation-header {
+  padding: 0.6rem 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nation-count {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.7rem;
+  color: var(--text3);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.element-group { padding: 0.4rem 0; }
+.element-group:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+.element-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 1rem;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.element-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.char-slot {
+  padding: 0.3rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s;
+}
+
+.char-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.char-slot.hidden .char-name {
+  background: var(--bg4);
+  color: transparent;
+  border-radius: 2px;
+  user-select: none;
+  min-width: 80px;
+  height: 1em;
+}
+
+.char-slot.found { background: rgba(46,125,79,0.15); }
+.char-slot.found .char-name { color: var(--found-text); }
+
+.char-slot.revealed {
+  background: rgba(46,125,79,0.08);
+  border-left: 2px solid var(--missed-text);
+}
+.char-slot.revealed .char-name { color: var(--missed-text); }
+
+.char-slot.abandoned {
+  background: rgba(30,58,30,0.4);
+  border-left: 2px solid var(--missed-border);
+}
+.char-slot.abandoned .char-name { color: var(--missed-text); font-style: italic; }
+
+.char-indicator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--found-text);
+  flex-shrink: 0;
+  opacity: 0;
+}
+.char-slot.found .char-indicator { opacity: 1; }
+
+/* ===== STATS SCREEN ===== */
+#stats-screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+}
+#stats-screen.active { display: block; }
+
+.stats-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  position: relative;
+  min-height: 180px;
+  max-height: 360px;
+}
+
+.chart-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.chart-box canvas { width: 100%; height: 100%; max-height: 320px; }
+
+.stats-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.stats-table-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.stats-table th {
+  background: var(--bg3);
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.stats-table th:hover { color: var(--text2); }
+.stats-table th .sort-arrow { opacity: 0.4; margin-left: 0.3rem; }
+.stats-table th.active-sort .sort-arrow { opacity: 1; color: var(--accent); }
+
+.stats-table td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.stats-table tr:last-child td { border-bottom: none; }
+.stats-table tr:hover td { background: var(--bg3); }
+
+.rate-bar {
+  height: 4px;
+  background: var(--bg4);
+  border-radius: 2px;
+  overflow: hidden;
+  width: 80px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+.rate-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.badge-nation, .badge-element {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ===== END SCREEN ===== */
+#end-screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+}
+#end-screen.active { display: block; }
+.end-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+.end-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.end-subtitle {
+  font-size: 0.9rem;
+  color: var(--text2);
+  margin-bottom: 2rem;
+}
+.end-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.end-btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ===== FLASH OVERLAY ===== */
+.toast {
+  position: fixed;
+  top: 90px;
+  right: 2rem;
+  background: var(--bg3);
+  border: 1px solid var(--found-text);
+  color: var(--found-text);
+  padding: 0.6rem 1.2rem;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.25s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(0); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+
+/* ===== IMPORT MODAL ===== */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+.modal-box {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 2rem;
+  width: 440px;
+  max-width: 95vw;
+}
+.modal-box h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.modal-box textarea {
+  width: 100%;
+  height: 150px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 3px;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 1rem;
+}
+.modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+/* colors */
+.anemo { color: var(--anemo); }
+.pyro  { color: var(--pyro);  }
+.hydro { color: var(--hydro); }
+.cryo  { color: var(--cryo);  }
+.electro { color: var(--electro); }
+.geo   { color: var(--geo);   }
+.dendro { color: var(--dendro); }
+.variable { color: var(--variable); }
+
+.dot-anemo { background: var(--anemo); }
+.dot-pyro  { background: var(--pyro); }
+.dot-hydro { background: var(--hydro); }
+.dot-cryo  { background: var(--cryo); }
+.dot-electro { background: var(--electro); }
+.dot-geo   { background: var(--geo); }
+.dot-dendro { background: var(--dendro); }
+.dot-variable { background: var(--variable); }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    Teyvat Quiz
+    <span>Récite tous les personnages</span>
+  </div>
+  <div class="header-actions" id="header-actions">
+    <button class="btn btn-ghost" onclick="showStats()">📊 Statistiques</button>
+    <button class="btn btn-ghost" onclick="fillRandomChar()" title="Debug: remplir un personnage au hasard">🐛 Remplir aléatoire</button>
+    <button class="btn btn-ghost" onclick="exportData()">⬇ Exporter</button>
+    <button class="btn btn-ghost" onclick="openImportModal()">⬆ Importer</button>
+  </div>
+</header>
+
+<!-- HOME -->
+<div id="home-screen" class="screen active">
+  <div class="home-title">Teyvat</div>
+  <div class="home-subtitle">Combien de personnages te souviens-tu ?</div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="val" id="home-runs">0</div>
+      <div class="lbl">Parties jouées</div>
+    </div>
+    <div class="stat-card">
+      <div class="val" id="home-best">—</div>
+      <div class="lbl">Meilleur score</div>
+    </div>
+    <div class="stat-card">
+      <div class="val" id="home-avg">—</div>
+      <div class="lbl">Moyenne</div>
+    </div>
+  </div>
+
+  <div class="home-btns">
+    <button class="btn btn-gold" onclick="startGame()">▶ Nouvelle partie</button>
+    <button class="btn btn-ghost" onclick="showStats()">📊 Voir les stats</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="game-screen" class="screen">
+  <div class="game-top">
+    <div class="timer-zone">
+      <div class="timer-display" id="timer">00:00.000</div>
+      <div class="timer-spacer"></div>
+    </div>
+    <div class="progress-info">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+      <div class="progress-text" id="progress-text">0 / 0</div>
+    </div>
+    <div class="input-wrap">
+      <input type="text" id="answer-input" placeholder="Nom du personnage…" autocomplete="off" autofocus>
+    </div>
+    <button class="btn btn-ghost" id="pause-btn" onclick="togglePauseTimer()">⏸ Pause</button>
+    <button class="btn btn-danger" onclick="abandonGame()">Abandonner</button>
+  </div>
+  <div class="game-body">
+    <div class="nations-grid" id="nations-grid"></div>
+  </div>
+</div>
+
+<!-- END -->
+<div id="end-screen" class="screen">
+  <div class="end-container">
+    <div class="end-title" id="end-title">Partie terminée</div>
+    <div class="end-subtitle" id="end-subtitle"></div>
+    <div class="end-stats">
+      <div class="stat-card">
+        <div class="val" id="end-found">0</div>
+        <div class="lbl">Trouvés</div>
+      </div>
+      <div class="stat-card">
+        <div class="val" id="end-missed">0</div>
+        <div class="lbl">Ratés</div>
+      </div>
+      <div class="stat-card">
+        <div class="val" id="end-time">0:00.000</div>
+        <div class="lbl">Temps</div>
+      </div>
+    </div>
+    <div class="end-btn-row">
+      <button class="btn btn-gold" onclick="startGame()">▶ Rejouer</button>
+      <button class="btn btn-ghost" onclick="showStats()">📊 Statistiques</button>
+      <button class="btn btn-ghost" onclick="showHome()">⌂ Accueil</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div id="stats-screen" class="screen">
+  <div class="stats-container">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem;">
+      <div class="stats-title">Statistiques de progression</div>
+      <button class="btn btn-ghost" onclick="showHome()">← Retour</button>
+    </div>
+    <div class="stats-summary" id="stats-summary"></div>
+    <div class="charts-grid">
+      <div class="chart-box">
+        <div class="chart-title">Nombre moyen de persos en fonction du temps</div>
+        <canvas id="countTimeChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Temps moyen pour trouver perso (en fonction du nombre déjà trouvés)</div>
+        <canvas id="perCharTimeChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Évolution des temps</div>
+        <canvas id="timeEvolutionChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="modal-backdrop" id="import-modal">
+  <div class="modal-box">
+    <h3>Importer des données</h3>
+    <textarea id="import-textarea" placeholder="Colle ton JSON ici…"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeImportModal()">Annuler</button>
+      <button class="btn btn-gold" onclick="importData()">Importer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const CHARACTERS = [
+  {nom:"Albedo",nation:"Mondstadt",element:"Geo"},
+  {nom:"Amber",nation:"Mondstadt",element:"Pyro"},
+  {nom:"Barbara",nation:"Mondstadt",element:"Hydro"},
+  {nom:"Bennett",nation:"Mondstadt",element:"Pyro"},
+  {nom:"Diluc",nation:"Mondstadt",element:"Pyro"},
+  {nom:"Diona",nation:"Mondstadt",element:"Cryo"},
+  {nom:"Eula",nation:"Mondstadt",element:"Cryo"},
+  {nom:"Fischl",nation:"Mondstadt",element:"Electro"},
+  {nom:"Jean",nation:"Mondstadt",element:"Anemo"},
+  {nom:"Kaeya",nation:"Mondstadt",element:"Cryo"},
+  {nom:"Klee",nation:"Mondstadt",element:"Pyro"},
+  {nom:"Lisa",nation:"Mondstadt",element:"Electro"},
+  {nom:"Mika",nation:"Mondstadt",element:"Cryo"},
+  {nom:"Mona",nation:"Mondstadt",element:"Hydro"},
+  {nom:"Noelle",nation:"Mondstadt",element:"Geo"},
+  {nom:"Razor",nation:"Mondstadt",element:"Electro"},
+  {nom:"Rosaria",nation:"Mondstadt",element:"Cryo"},
+  {nom:"Sucrose",nation:"Mondstadt",element:"Anemo"},
+  {nom:"Venti",nation:"Mondstadt",element:"Anemo"},
+  {nom:"Varka",nation:"Mondstadt",element:"Anemo"},
+  {nom:"Linnea",nation:"Mondstadt",element:"Geo"},
+  {nom:"Lohen",nation:"Mondstadt",element:"Cryo"},
+  {nom:"Prune",nation:"Mondstadt",element:"Anemo"},
+  {nom:"Dahlia",nation:"Mondstadt",element:"Hydro"},
+  {nom:"Nicole",nation:"Mondstadt",element:"Pyro"},
+  {nom:"Durin",nation:"Mondstadt",element:"Pyro"},
+  {nom:"Baizhu",nation:"Liyue",element:"Dendro"},
+  {nom:"Beidou",nation:"Liyue",element:"Electro"},
+  {nom:"Chongyun",nation:"Liyue",element:"Cryo"},
+  {nom:"Ganyu",nation:"Liyue",element:"Cryo"},
+  {nom:"Hu Tao",nation:"Liyue",element:"Pyro"},
+  {nom:"Keqing",nation:"Liyue",element:"Electro"},
+  {nom:"Ningguang",nation:"Liyue",element:"Geo"},
+  {nom:"Qiqi",nation:"Liyue",element:"Cryo"},
+  {nom:"Shenhe",nation:"Liyue",element:"Cryo"},
+  {nom:"Xiao",nation:"Liyue",element:"Anemo"},
+  {nom:"Xiangling",nation:"Liyue",element:"Pyro"},
+  {nom:"Xingqiu",nation:"Liyue",element:"Hydro"},
+  {nom:"Xinyan",nation:"Liyue",element:"Pyro"},
+  {nom:"Yanfei",nation:"Liyue",element:"Pyro"},
+  {nom:"Yaoyao",nation:"Liyue",element:"Dendro"},
+  {nom:"Yelan",nation:"Liyue",element:"Hydro"},
+  {nom:"Yun Jin",nation:"Liyue",element:"Geo"},
+  {nom:"Zhongli",nation:"Liyue",element:"Geo"},
+  {nom:"Xianyun",nation:"Liyue",element:"Anemo"},
+  {nom:"Zibai",nation:"Liyue",element:"Geo"},
+  {nom:"Tartaglia",nation:"Liyue",element:"Hydro"},
+  {nom:"Lan Yan",nation:"Liyue",element:"Anemo"},
+  {nom:"Gaming",nation:"Liyue",element:"Pyro"},
+  {nom:"Arataki Itto",nation:"Inazuma",element:"Geo"},
+  {nom:"Gorou",nation:"Inazuma",element:"Geo"},
+  {nom:"Kamisato Ayaka",nation:"Inazuma",element:"Cryo"},
+  {nom:"Kamisato Ayato",nation:"Inazuma",element:"Hydro"},
+  {nom:"Kaedehara Kazuha",nation:"Inazuma",element:"Anemo"},
+  {nom:"Kirara",nation:"Inazuma",element:"Dendro"},
+  {nom:"Kuki Shinobu",nation:"Inazuma",element:"Electro"},
+  {nom:"Kujou Sara",nation:"Inazuma",element:"Electro"},
+  {nom:"Raiden Shogun",nation:"Inazuma",element:"Electro"},
+  {nom:"Sangonomiya Kokomi",nation:"Inazuma",element:"Hydro"},
+  {nom:"Sayu",nation:"Inazuma",element:"Anemo"},
+  {nom:"Shikanoin Heizou",nation:"Inazuma",element:"Anemo"},
+  {nom:"Thoma",nation:"Inazuma",element:"Pyro"},
+  {nom:"Yae Miko",nation:"Inazuma",element:"Electro"},
+  {nom:"Yoimiya",nation:"Inazuma",element:"Pyro"},
+  {nom:"Yumezuki Mizuki",nation:"Inazuma",element:"Anemo"},
+  {nom:"Alhaitham",nation:"Sumeru",element:"Dendro"},
+  {nom:"Candace",nation:"Sumeru",element:"Hydro"},
+  {nom:"Collei",nation:"Sumeru",element:"Dendro"},
+  {nom:"Cyno",nation:"Sumeru",element:"Electro"},
+  {nom:"Dehya",nation:"Sumeru",element:"Pyro"},
+  {nom:"Dori",nation:"Sumeru",element:"Electro"},
+  {nom:"Faruzan",nation:"Sumeru",element:"Anemo"},
+  {nom:"Kaveh",nation:"Sumeru",element:"Dendro"},
+  {nom:"Layla",nation:"Sumeru",element:"Cryo"},
+  {nom:"Nahida",nation:"Sumeru",element:"Dendro"},
+  {nom:"Nilou",nation:"Sumeru",element:"Hydro"},
+  {nom:"Sethos",nation:"Sumeru",element:"Electro"},
+  {nom:"Tighnari",nation:"Sumeru",element:"Dendro"},
+  {nom:"Wanderer",nation:"Sumeru",element:"Anemo"},
+  {nom:"Charlotte",nation:"Fontaine",element:"Cryo"},
+  {nom:"Chevreuse",nation:"Fontaine",element:"Pyro"},
+  {nom:"Chiori",nation:"Fontaine",element:"Geo"},
+  {nom:"Clorinde",nation:"Fontaine",element:"Electro"},
+  {nom:"Emilie",nation:"Fontaine",element:"Dendro"},
+  {nom:"Escoffier",nation:"Fontaine",element:"Cryo"},
+  {nom:"Freminet",nation:"Fontaine",element:"Cryo"},
+  {nom:"Furina",nation:"Fontaine",element:"Hydro"},
+  {nom:"Lynette",nation:"Fontaine",element:"Anemo"},
+  {nom:"Lyney",nation:"Fontaine",element:"Pyro"},
+  {nom:"Navia",nation:"Fontaine",element:"Geo"},
+  {nom:"Neuvillette",nation:"Fontaine",element:"Hydro"},
+  {nom:"Sigewinne",nation:"Fontaine",element:"Hydro"},
+  {nom:"Wriothesley",nation:"Fontaine",element:"Cryo"},
+  {nom:"Skirk",nation:"Fontaine",element:"Cryo"},
+  {nom:"Arlecchino",nation:"Fontaine",element:"Pyro"},
+  {nom:"Chasca",nation:"Natlan",element:"Anemo"},
+  {nom:"Citlali",nation:"Natlan",element:"Cryo"},
+  {nom:"Iansan",nation:"Natlan",element:"Electro"},
+  {nom:"Ifa",nation:"Natlan",element:"Anemo"},
+  {nom:"Kachina",nation:"Natlan",element:"Geo"},
+  {nom:"Kinich",nation:"Natlan",element:"Dendro"},
+  {nom:"Mavuika",nation:"Natlan",element:"Pyro"},
+  {nom:"Mualani",nation:"Natlan",element:"Hydro"},
+  {nom:"Ororon",nation:"Natlan",element:"Electro"},
+  {nom:"Varesa",nation:"Natlan",element:"Electro"},
+  {nom:"Xilonen",nation:"Natlan",element:"Geo"},
+  {nom:"Aino",nation:"Nod-Krai",element:"Hydro"},
+  {nom:"Ineffa",nation:"Nod-Krai",element:"Electro"},
+  {nom:"Lauma",nation:"Nod-Krai",element:"Dendro"},
+  {nom:"Jahoda",nation:"Nod-Krai",element:"Anemo"},
+  {nom:"Nefer",nation:"Nod-Krai",element:"Dendro"},
+  {nom:"Columbina",nation:"Nod-Krai",element:"Hydro"},
+  {nom:"Flins",nation:"Nod-Krai",element:"Electro"},
+  {nom:"Illuga",nation:"Nod-Krai",element:"Geo"},
+  {nom:"Aether",nation:"Voyageur",element:"Variable"},
+  {nom:"Lumine",nation:"Voyageur",element:"Variable"},
+  {nom:"Aloy",nation:"Voyageur",element:"Cryo"},
+];
+
+const NATION_ORDER = ["Mondstadt","Liyue","Inazuma","Sumeru","Fontaine","Natlan","Nod-Krai","Voyageur"];
+const ELEMENT_ORDER = ["Anemo","Pyro","Hydro","Cryo","Electro","Geo","Dendro","Variable"];
+const NATION_COLORS = {
+  Mondstadt:"#5b9ed4", Liyue:"#d4a835", Inazuma:"#b07fe8",
+  Sumeru:"#7ec850", Fontaine:"#5b9bd5", Natlan:"#e87d3e",
+  "Nod-Krai":"#9fd4e8", Voyageur:"#c8a84b"
+};
+
+// ===== STATE =====
+let gameState = null;
+let timerFrame = null;
+let timerStart = 0;
+let elapsedSeconds = 0;
+let timerPaused = false;
+let runsHistory = []; // [ { date, found, total, time, abandoned, characterTimes: [[nom, time], ...] } ]
+let chartsInstances = {}; // Pour gérer les instances des graphiques
+
+// ===== STORAGE =====
+function saveToStorage() {
+  try {
+    localStorage.setItem('genshin_quiz_stats', JSON.stringify({runs: runsHistory}));
+  } catch(e) {}
+}
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem('genshin_quiz_stats');
+    if (raw) {
+      const d = JSON.parse(raw);
+      runsHistory = d.runs || [];
+    }
+  } catch(e) {}
+}
+
+// ===== NORMALIZE =====
+function normalize(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+function findCharByInput(input) {
+  const n = normalize(input);
+  if (n.length < 2) return null;
+  return CHARACTERS.find(c => {
+    const parts = c.nom.toLowerCase().split(' ');
+    const full = normalize(c.nom);
+    return full === n || parts.some(p => normalize(p) === n);
+  }) || null;
+}
+
+// ===== TIMER =====
+function startTimer() {
+  elapsedSeconds = 0;
+  timerPaused = false;
+  timerStart = performance.now();
+  updatePauseButton();
+  updateTimerDisplay();
+  timerFrame = requestAnimationFrame(updateRunningTimer);
+}
+function stopTimer() {
+  if (timerFrame !== null) {
+    cancelAnimationFrame(timerFrame);
+    timerFrame = null;
+  }
+  if (timerStart && !timerPaused) elapsedSeconds = (performance.now() - timerStart) / 1000;
+  timerPaused = false;
+  updatePauseButton();
+}
+function updateRunningTimer(now) {
+  if (timerPaused) return;
+  elapsedSeconds = (now - timerStart) / 1000;
+  updateTimerDisplay();
+  timerFrame = requestAnimationFrame(updateRunningTimer);
+}
+function togglePauseTimer() {
+  if (!gameState) return;
+  const input = document.getElementById('answer-input');
+
+  if (timerPaused) {
+    timerPaused = false;
+    timerStart = performance.now() - elapsedSeconds * 1000;
+    if (input) {
+      input.disabled = false;
+      input.focus();
+    }
+    updatePauseButton();
+    timerFrame = requestAnimationFrame(updateRunningTimer);
+    return;
+  }
+
+  timerPaused = true;
+  if (timerFrame !== null) {
+    cancelAnimationFrame(timerFrame);
+    timerFrame = null;
+  }
+  if (timerStart) elapsedSeconds = (performance.now() - timerStart) / 1000;
+  if (input) input.disabled = true;
+  updateTimerDisplay();
+  updatePauseButton();
+}
+function updateTimerDisplay() {
+  document.getElementById('timer').textContent = formatTime(elapsedSeconds, true);
+}
+function updatePauseButton() {
+  const btn = document.getElementById('pause-btn');
+  if (!btn) return;
+  btn.textContent = timerPaused ? '▶ Reprendre' : '⏸ Pause';
+}
+function formatTime(sec, padMinutes = false) {
+  const safeSeconds = Math.max(0, Number(sec) || 0);
+  const totalSeconds = Math.floor(safeSeconds);
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  const ms = Math.floor((safeSeconds - totalSeconds) * 1000);
+  const minutes = padMinutes ? String(m).padStart(2,'0') : String(m);
+  return minutes + ':' + String(s).padStart(2,'0') + '.' + String(ms).padStart(3,'0');
+}
+
+// ===== BUILD GRID =====
+function buildGrid() {
+  const grid = document.getElementById('nations-grid');
+  grid.innerHTML = '';
+
+  NATION_ORDER.forEach(nation => {
+    const chars = CHARACTERS.filter(c => c.nation === nation);
+    if (!chars.length) return;
+
+    const block = document.createElement('div');
+    block.className = 'nation-block';
+    block.id = 'nation-' + nation.replace(/\s/g,'_');
+
+    const color = NATION_COLORS[nation] || '#ccc';
+    const header = document.createElement('div');
+    header.className = 'nation-header';
+    header.style.color = color;
+    header.style.borderColor = color + '22';
+    header.innerHTML = `<span>${nation}</span><span class="nation-count" id="count-${nation.replace(/\s/g,'_')}">0 / ${chars.length}</span>`;
+    block.appendChild(header);
+
+    // group by element
+    const byElement = {};
+    chars.forEach(c => {
+      if (!byElement[c.element]) byElement[c.element] = [];
+      byElement[c.element].push(c);
+    });
+
+    ELEMENT_ORDER.forEach(el => {
+      if (!byElement[el]) return;
+      const grp = document.createElement('div');
+      grp.className = 'element-group';
+
+      const lbl = document.createElement('div');
+      lbl.className = 'element-label';
+      const elClass = el.toLowerCase();
+      lbl.innerHTML = `<span class="element-dot dot-${elClass}"></span><span class="${elClass}">${el}</span>`;
+      grp.appendChild(lbl);
+
+      // alphabetical
+      byElement[el].sort((a,b) => a.nom.localeCompare(b.nom));
+
+      byElement[el].forEach(c => {
+        const slot = document.createElement('div');
+        slot.className = 'char-slot hidden';
+        slot.id = 'char-' + c.nom.replace(/\s/g,'_');
+        slot.innerHTML = `<span class="char-indicator"></span><span class="char-name">${c.nom}</span>`;
+        grp.appendChild(slot);
+      });
+
+      block.appendChild(grp);
+    });
+
+    grid.appendChild(block);
+  });
+}
+
+function updateNationCount(nation) {
+  const chars = CHARACTERS.filter(c => c.nation === nation);
+  const found = chars.filter(c => gameState.found.has(c.nom)).length;
+  const el = document.getElementById('count-' + nation.replace(/\s/g,'_'));
+  if (el) el.textContent = found + ' / ' + chars.length;
+}
+
+function revealChar(char, mode) {
+  // mode: 'found' | 'abandoned' | 'revealed'
+  const slot = document.getElementById('char-' + char.nom.replace(/\s/g,'_'));
+  if (!slot) return;
+  slot.classList.remove('hidden','found','abandoned','revealed');
+  slot.classList.add(mode);
+}
+
+// ===== PROGRESS =====
+function updateProgress() {
+  const total = CHARACTERS.length;
+  const found = gameState.found.size;
+  document.getElementById('progress-text').textContent = found + ' / ' + total;
+  document.getElementById('progress-bar').style.width = (found / total * 100) + '%';
+}
+
+// ===== START GAME =====
+function startGame() {
+  gameState = { found: new Set(), abandoned: false, characterTimes: [] };
+  showScreen('game-screen');
+  buildGrid();
+  updateProgress();
+
+  const input = document.getElementById('answer-input');
+  input.value = '';
+  input.disabled = false;
+  input.focus();
+  input.addEventListener('input', onInput);
+
+  startTimer();
+}
+
+function onInput(e) {
+  const val = e.target.value.trim();
+  if (!val) return;
+
+  const char = findCharByInput(val);
+  if (!char) return;
+  if (gameState.found.has(char.nom)) return;
+
+  // Found!
+  gameState.found.add(char.nom);
+  gameState.characterTimes.push([char.nom, elapsedSeconds]);
+  revealChar(char, 'found');
+  updateNationCount(char.nation);
+  updateProgress();
+
+  e.target.value = '';
+  e.target.classList.add('flash-success');
+  setTimeout(() => e.target.classList.remove('flash-success'), 400);
+
+  showToast('✓ ' + char.nom);
+
+  if (gameState.found.size === CHARACTERS.length) {
+    endGame(false);
+  }
+}
+
+// ===== DEBUG: FILL RANDOM =====
+function fillRandomChar() {
+  if (!gameState) {
+    startGame();
+  }
+
+  const remaining = CHARACTERS.filter(c => !gameState.found.has(c.nom));
+  if (!remaining.length) {
+    showToast('Tous les personnages sont déjà trouvés');
+    return;
+  }
+
+  const choice = remaining[Math.floor(Math.random() * remaining.length)];
+  gameState.found.add(choice.nom);
+  gameState.characterTimes.push([choice.nom, elapsedSeconds]);
+  revealChar(choice, 'found');
+  updateNationCount(choice.nation);
+  updateProgress();
+  showToast('✓ ' + choice.nom);
+
+  if (gameState.found.size === CHARACTERS.length) {
+    endGame(false);
+  }
+}
+
+// ===== ABANDON =====
+function abandonGame() {
+  if (!gameState) return;
+  gameState.abandoned = true;
+  endGame(true);
+}
+
+// ===== END GAME =====
+function endGame(abandoned) {
+  stopTimer();
+  const input = document.getElementById('answer-input');
+  input.removeEventListener('input', onInput);
+
+  const found = gameState.found.size;
+  const total = CHARACTERS.length;
+  const missed = total - found;
+  const time = elapsedSeconds;
+
+  // reveal remaining
+  if (abandoned) {
+    CHARACTERS.forEach(c => {
+      if (!gameState.found.has(c.nom)) revealChar(c, 'abandoned');
+    });
+  }
+
+  runsHistory.push({
+    date: new Date().toISOString(),
+    found, total, time,
+    abandoned,
+    characterTimes: gameState.characterTimes
+  });
+
+  saveToStorage();
+  updateHomeStats();
+
+  // show end screen after short delay if abandoned
+  setTimeout(() => {
+    showScreen('end-screen');
+    document.getElementById('end-title').textContent = abandoned ? 'Partie abandonnée' : '🏆 Complet !';
+    document.getElementById('end-subtitle').textContent = abandoned
+      ? `Tu as trouvé ${found} personnages sur ${total}.`
+      : `Félicitations ! Tous les ${total} personnages trouvés en ${formatTime(time)} !`;
+    document.getElementById('end-found').textContent = found;
+    document.getElementById('end-missed').textContent = missed;
+    document.getElementById('end-time').textContent = formatTime(time);
+  }, abandoned ? 800 : 0);
+}
+
+// ===== SCREENS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function showHome() {
+  updateHomeStats();
+  showScreen('home-screen');
+}
+function showStats() {
+  renderStatsTable();
+  showScreen('stats-screen');
+}
+
+function updateHomeStats() {
+  document.getElementById('home-runs').textContent = runsHistory.length;
+  if (runsHistory.length) {
+    const completedRuns = runsHistory.filter(r => !r.abandoned);
+    const scores = completedRuns.map(r => r.found);
+    const times = completedRuns.map(r => r.time);
+    if (scores.length) {
+      document.getElementById('home-best').textContent = Math.max(...scores);
+      document.getElementById('home-avg').textContent = formatTime(times.reduce((a,b)=>a+b,0)/times.length);
+    }
+  }
+}
+
+// ===== STATS RENDERING =====
+function renderStatsTable() {
+  const summary = document.getElementById('stats-summary');
+  const totalRuns = runsHistory.length;
+  const completedRuns = runsHistory.filter(r => !r.abandoned);
+  const abandonedRuns = runsHistory.filter(r => r.abandoned);
+  
+  let bestTime = Infinity;
+  let totalCharFound = 0;
+  
+  if (completedRuns.length) {
+    bestTime = Math.min(...completedRuns.map(r => r.time));
+    totalCharFound = Math.max(...completedRuns.map(r => r.found));
+  }
+
+  summary.innerHTML = `
+    <div class="stat-card"><div class="val">${totalRuns}</div><div class="lbl">Parties jouées</div></div>
+    <div class="stat-card"><div class="val">${completedRuns.length}</div><div class="lbl">Terminées</div></div>
+    <div class="stat-card"><div class="val">${abandonedRuns.length}</div><div class="lbl">Abandonnées</div></div>
+    <div class="stat-card"><div class="val">${bestTime === Infinity ? '—' : formatTime(bestTime)}</div><div class="lbl">Meilleur temps</div></div>
+    <div class="stat-card"><div class="val">${totalCharFound || '—'}</div><div class="lbl">Max trouvés</div></div>
+  `;
+
+  // Render charts
+  renderAvgProgressionCharts();
+  renderTimeEvolutionChart();
+}
+function renderAvgProgressionCharts() {
+  const validRuns = runsHistory.filter(r => r.characterTimes && r.characterTimes.length > 0);
+  const ctxCount = document.getElementById('countTimeChart');
+  const ctxPerChar = document.getElementById('perCharTimeChart');
+  if ((!ctxCount && !ctxPerChar) || validRuns.length === 0) {
+    if (ctxCount) ctxCount.style.display = 'none';
+    if (ctxPerChar) ctxPerChar.style.display = 'none';
+    return;
+  }
+
+  const maxLen = Math.max(...validRuns.map(r => r.characterTimes.length));
+  const cumSums = new Array(maxLen).fill(0);
+  const perCharSums = new Array(maxLen).fill(0);
+  const counts = new Array(maxLen).fill(0);
+
+  validRuns.forEach(run => {
+    const cumTimes = run.characterTimes.map(i => i[1]);
+    for (let i = 0; i < cumTimes.length; i++) {
+      cumSums[i] += cumTimes[i];
+      const delta = i === 0 ? cumTimes[0] : (cumTimes[i] - cumTimes[i - 1]);
+      perCharSums[i] += delta;
+      counts[i]++;
+    }
+  });
+
+  const avgCum = cumSums.map((s, i) => s / (counts[i] || 1));
+  const avgPerChar = perCharSums.map((s, i) => s / (counts[i] || 1));
+
+  // Chart 1: number of chars (y) vs time (x) — invert avgCum
+  if (ctxCount) {
+    ctxCount.style.display = 'block';
+    const pts = avgCum.map((t, i) => ({ x: t, y: i + 1 }));
+    if (chartsInstances.countTime) chartsInstances.countTime.destroy();
+    chartsInstances.countTime = new Chart(ctxCount, {
+      type: 'line',
+      data: { datasets: [{ label: 'Nombre moyen de persos', data: pts, borderColor: '#c8a84b', backgroundColor: 'rgba(200,168,75,0.08)', tension: 0.3, fill: true }] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'nearest', intersect: false },
+        plugins: { legend: { labels: { color: '#e8e0d0' } } },
+        scales: {
+          x: { type: 'linear', title: { display: true, text: 'Temps', color: '#e8e0d0' }, ticks: { color: '#9a93a8', callback: v => formatTime(v) }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { type: 'linear', title: { display: true, text: 'Nombre de persos', color: '#e8e0d0' }, ticks: { color: '#9a93a8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        }
+      }
+    });
+  }
+
+  // Chart 2: avg time per character vs number already found
+  if (ctxPerChar) {
+    ctxPerChar.style.display = 'block';
+    const labels = avgPerChar.map((_, i) => i); // number already found before the next
+    if (chartsInstances.perCharTime) chartsInstances.perCharTime.destroy();
+    chartsInstances.perCharTime = new Chart(ctxPerChar, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{ label: 'Temps moyen pour le personnage suivant', data: avgPerChar, borderColor: '#6fcf8a', backgroundColor: 'rgba(111,207,138,0.08)', tension: 0.3, fill: true }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { labels: { color: '#e8e0d0' } } },
+        scales: {
+          x: { title: { display: true, text: 'Nombre déjà trouvés', color: '#e8e0d0' }, ticks: { color: '#9a93a8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { title: { display: true, text: 'Temps moyen', color: '#e8e0d0' }, ticks: { color: '#9a93a8', callback: v => formatTime(v) }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        }
+      }
+    });
+  }
+}
+
+function renderTimeEvolutionChart() {
+  const ctx = document.getElementById('timeEvolutionChart');
+  if (!ctx) return;
+
+  const completedRuns = runsHistory.filter(r => !r.abandoned);
+  const abandonedRuns = runsHistory.filter(r => r.abandoned);
+
+  if (completedRuns.length === 0 && abandonedRuns.length === 0) {
+    ctx.style.display = 'none';
+    return;
+  }
+
+  ctx.style.display = 'block';
+
+  // Prepare completed runs data
+  const completedData = completedRuns.map((run, idx) => ({ 
+    runNum: runsHistory.indexOf(run) + 1,
+    time: run.time 
+  }));
+
+  // Prepare abandoned runs data with extrapolation
+  const abandonedData = abandonedRuns.map(run => {
+    const runNum = runsHistory.indexOf(run) + 1;
+    if (run.characterTimes.length === 0) return { runNum, time: null };
+    
+    // Extrapolate: if we found X chars in Y seconds, we'd find all 117 chars in (117/X)*Y seconds
+    const timePerChar = run.time / run.found;
+    const estimatedTotalTime = timePerChar * CHARACTERS.length;
+    return { runNum, time: estimatedTotalTime };
+  });
+
+  if (chartsInstances.timeEvolution) chartsInstances.timeEvolution.destroy();
+
+  chartsInstances.timeEvolution = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Array.from({length: Math.max(completedData.length, abandonedData.length) + 1}, (_, i) => i),
+      datasets: [
+        {
+          label: 'Temps réel (partie terminée)',
+          data: completedData.map(d => ({ x: d.runNum, y: d.time })),
+          borderColor: '#6fcf8a',
+          backgroundColor: 'rgba(111,207,138,0.1)',
+          tension: 0.3,
+          fill: true,
+          pointRadius: 4
+        },
+        {
+          label: 'Temps extrapolé (partie abandonnée)',
+          data: abandonedData.filter(d => d.time !== null).map(d => ({ x: d.runNum, y: d.time })),
+          borderColor: '#e87d3e',
+          borderDash: [5, 5],
+          backgroundColor: 'rgba(232,125,62,0.1)',
+          tension: 0.3,
+          fill: true,
+          pointRadius: 4,
+          pointStyle: 'rect'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#e8e0d0' } },
+        filler: { propagate: true }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: '#9a93a8' },
+          title: { display: true, text: 'Numéro de la partie', color: '#e8e0d0' }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { 
+            color: '#9a93a8',
+            callback: function(value) {
+              return formatTime(value);
+            }
+          },
+          title: { display: true, text: 'Temps', color: '#e8e0d0' }
+        }
+      }
+    }
+  });
+}
+
+// ===== EXPORT / IMPORT =====
+function exportData() {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    runs: runsHistory
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'genshin_quiz_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+function openImportModal() {
+  document.getElementById('import-modal').classList.add('open');
+}
+function closeImportModal() {
+  document.getElementById('import-modal').classList.remove('open');
+  document.getElementById('import-textarea').value = '';
+}
+function importData() {
+  try {
+    const raw = document.getElementById('import-textarea').value;
+    const d = JSON.parse(raw);
+    if (d.runs) runsHistory = d.runs;
+    saveToStorage();
+    closeImportModal();
+    updateHomeStats();
+    showToast('✓ Données importées !');
+  } catch(e) {
+    alert('JSON invalide : ' + e.message);
+  }
+}
+
+// ===== TOAST =====
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1500);
+}
+
+// ===== INIT =====
+loadFromStorage();
+updateHomeStats();
+</script>
+</body>
+</html>
