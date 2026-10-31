@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sommaire des cours</title>
+<style>
+:root{--bg:#f4f2ed;--paper:#fffefa;--ink:#222a31;--muted:#69737c;--line:#e1ddd4;--accent:#a87a2b;--blue:#315d78}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.hero{background:#202a33;color:#fff;padding:64px max(22px,calc((100vw - 1080px)/2)) 54px;border-bottom:5px solid var(--accent)}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#d8c7a4;font-weight:700}
+h1{font:clamp(38px,6vw,64px)/1.05 Georgia,serif;margin:14px 0}
+.hero p{color:#d1d8de;max-width:640px;margin:0}
+.wrap{max-width:1080px;margin:38px auto;padding:0 20px 50px}
+.group{margin:34px 0}.group h2{font:26px Georgia,serif;border-bottom:1px solid var(--line);padding-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:15px}
+.card{display:block;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:22px;color:inherit;text-decoration:none;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.tag{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-weight:700}
+.card h3{font:22px Georgia,serif;margin:9px 0 6px}.card p{font-size:14px;color:var(--muted);margin:0}
+.arrow{display:block;margin-top:16px;font-size:13px;color:var(--blue);font-weight:700}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="eyebrow">Noni78 · Dépôt cours</div>
+  <h1>Sommaire des cours</h1>
+  <p>Retrouver les fiches de révision, les cours et les outils classés par matière.</p>
+</header>
+<main class="wrap">
+  <section class="group">
+    <h2>Mathématiques et informatique</h2>
+    <div class="grid">
+      <a class="card" href="maths-expertes.html"><span class="tag">Fiche de révision · Terminale</span><h3>Mathématiques expertes</h3><p>Nombres complexes, matrices et graphes.</p><span class="arrow">Ouvrir la fiche →</span></a>
+      <a class="card" href="nsi.html"><span class="tag">Fiche de révision · Terminale</span><h3>Numérique et sciences informatiques</h3><p>Réseaux, POO, récursivité, arbres, piles et files.</p><span class="arrow">Ouvrir la fiche →</span></a>
+      <a class="card" href="exponentielle.html"><span class="tag">Mathématiques</span><h3>La fonction exponentielle</h3><p>Définition, propriétés, dérivation, variations et méthodes.</p><span class="arrow">Ouvrir le cours →</span></a>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Langues</h2>
+    <div class="grid">
+      <a class="card" href="accents-espagnol.html"><span class="tag">Espagnol</span><h3>Les accents en espagnol</h3><p>Règles d’accentuation et repères d’orthographe.</p><span class="arrow">Ouvrir le cours →</span></a>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Outils et culture générale</h2>
+    <div class="grid">
+      <a class="card" href="genshin.html"><span class="tag">Outil interactif</span><h3>Genshin Quiz</h3><p>Quiz pour réciter les personnages du jeu.</p><span class="arrow">Ouvrir l’outil →</span></a>
+    </div>
+  </section>
+</main>
+<footer>Sommaire du dépôt cours · Les ressources sont accessibles depuis cette page.</footer>
+</body>
+</html>
