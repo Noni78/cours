@@ -294,11 +294,13 @@ header {
 /* ===== GRID ===== */
 .nations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 1rem;
+  min-width: 0;
 }
 
 .nation-block {
+  min-width: 0;
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -360,6 +362,8 @@ header {
   font-size: 0.82rem;
   font-weight: 500;
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .char-slot.hidden .char-name {
@@ -412,7 +416,7 @@ header {
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -633,6 +637,85 @@ header {
 .dot-geo   { background: var(--geo); }
 .dot-dendro { background: var(--dendro); }
 .dot-variable { background: var(--variable); }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 760px) {
+  header {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .game-top {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .timer-zone {
+    width: auto;
+  }
+
+  .timer-spacer {
+    display: none;
+  }
+
+  .progress-info {
+    flex: 1 1 100%;
+    order: 3;
+  }
+
+  .input-wrap {
+    flex: 1 1 180px;
+    min-width: 0;
+  }
+
+  .input-wrap input {
+    width: 100%;
+  }
+
+  .game-body {
+    padding: 1rem;
+  }
+
+  .stats-container {
+    padding: 0 1rem;
+  }
+
+  .charts-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chart-box {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo {
+    font-size: 1.15rem;
+  }
+
+  .home-title {
+    font-size: 2.3rem;
+  }
+
+  .stats-grid,
+  .end-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.72rem;
+  }
+}
 
 </style>
 </head>
@@ -891,7 +974,7 @@ const CHARACTERS = [
   {nom:"Anastasya",nation:"Snezhnaya",element:"Cryo"},
   {nom:"Sandrone",nation:"Snezhnaya",element:"Cryo"},
   {nom:"Odette",nation:"Snezhnaya",element:"Cryo"},
-  {nom:"Alyosha",nation:"Snezhnaya",element:"ELectro"},
+  {nom:"Alyosha",nation:"Snezhnaya",element:"Electro"},
   {nom:"Vesna",nation:"Snezhnaya",element:"Anemo"},
   {nom:"Vodyanitsa",nation:"Snezhnaya",element:"Hydro"},
   {nom:"Mitya",nation:"Snezhnaya",element:"Electro"},
