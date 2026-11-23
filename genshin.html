@@ -40,7 +40,8 @@
   --sumeru: #7ec850;
   --fontaine: #5b9bd5;
   --natlan: #e87d3e;
-  --nod-krai: #9fd4e8;
+  --nod-krai: #a7d8ea;
+  --snezhnaya : #9fd4e8;
   --voyageur: #c8a84b;
 }
 
@@ -816,7 +817,7 @@ const CHARACTERS = [
   {nom:"Zhongli",nation:"Liyue",element:"Geo"},
   {nom:"Xianyun",nation:"Liyue",element:"Anemo"},
   {nom:"Zibai",nation:"Liyue",element:"Geo"},
-  {nom:"Tartaglia",nation:"Liyue",element:"Hydro"},
+  {nom:"Tartaglia",nation:"Snezhnaya",element:"Hydro"},
   {nom:"Lan Yan",nation:"Liyue",element:"Anemo"},
   {nom:"Gaming",nation:"Liyue",element:"Pyro"},
   {nom:"Arataki Itto",nation:"Inazuma",element:"Geo"},
@@ -864,7 +865,7 @@ const CHARACTERS = [
   {nom:"Sigewinne",nation:"Fontaine",element:"Hydro"},
   {nom:"Wriothesley",nation:"Fontaine",element:"Cryo"},
   {nom:"Skirk",nation:"Fontaine",element:"Cryo"},
-  {nom:"Arlecchino",nation:"Fontaine",element:"Pyro"},
+  {nom:"Arlecchino",nation:"Snezhnaya",element:"Pyro"},
   {nom:"Chasca",nation:"Natlan",element:"Anemo"},
   {nom:"Citlali",nation:"Natlan",element:"Cryo"},
   {nom:"Iansan",nation:"Natlan",element:"Electro"},
@@ -887,14 +888,29 @@ const CHARACTERS = [
   {nom:"Aether",nation:"Voyageur",element:"Variable"},
   {nom:"Lumine",nation:"Voyageur",element:"Variable"},
   {nom:"Aloy",nation:"Voyageur",element:"Cryo"},
+  {nom:"Anastasya",nation:"Snezhnaya",element:"Cryo"},
+  {nom:"Sandrone",nation:"Snezhnaya",element:"Cryo"},
+  {nom:"Odette",nation:"Snezhnaya",element:"Cryo"},
+  {nom:"Alyosha",nation:"Snezhnaya",element:"ELectro"},
+  {nom:"Vesna",nation:"Snezhnaya",element:"Anemo"},
+  {nom:"Vodyanitsa",nation:"Snezhnaya",element:"Hydro"},
+  {nom:"Mitya",nation:"Snezhnaya",element:"Electro"},
+  {nom:"Valeriy",nation:"Snezhnaya",element:"Electro"},
+  {nom:"Danica",nation:"Snezhnaya",element:"Electro"},
 ];
 
-const NATION_ORDER = ["Mondstadt","Liyue","Inazuma","Sumeru","Fontaine","Natlan","Nod-Krai","Voyageur"];
+const NATION_ORDER = ["Mondstadt","Liyue","Inazuma","Sumeru","Fontaine","Natlan","Nod-Krai","Snezhnaya","Voyageur"];
 const ELEMENT_ORDER = ["Anemo","Pyro","Hydro","Cryo","Electro","Geo","Dendro","Variable"];
 const NATION_COLORS = {
-  Mondstadt:"#5b9ed4", Liyue:"#d4a835", Inazuma:"#b07fe8",
-  Sumeru:"#7ec850", Fontaine:"#5b9bd5", Natlan:"#e87d3e",
-  "Nod-Krai":"#9fd4e8", Voyageur:"#c8a84b"
+  Mondstadt:"#5b9ed4", 
+  Liyue:"#d4a835", 
+  Inazuma:"#b07fe8",
+  Sumeru:"#7ec850", 
+  Fontaine:"#5b9bd5", 
+  Natlan:"#e87d3e",
+  "Nod-Krai":"#a7d8ea",
+  Snezhnaya : "#9fd4e8", 
+  Voyageur:"#c8a84b"
 };
 
 // ===== STATE =====
@@ -1197,7 +1213,7 @@ function endGame(abandoned) {
     document.getElementById('end-found').textContent = found;
     document.getElementById('end-missed').textContent = missed;
     document.getElementById('end-time').textContent = formatTime(time);
-  }, abandoned ? 800 : 0);
+  }, abandoned ? 8000 : 0);
 }
 
 // ===== SCREENS =====
